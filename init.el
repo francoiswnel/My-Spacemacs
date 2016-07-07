@@ -9,13 +9,15 @@
      c-c++
      rust
      python
+     ruby
+     ruby-on-rails
      html
      markdown
      extra-langs
      git
      github
+     dash
      ranger
-     org
      better-defaults
      evil-commentary
      theming
@@ -116,7 +118,6 @@
    c-basic-offset 4
    neo-theme 'ascii
    neo-smart-open t
-   neo-show-updir-line t
    neo-show-hidden-files nil
    )
 
@@ -176,7 +177,9 @@
    default-directory "C:/Users/Francois"
    racer-cmd "C:/Users/Francois/.cargo/bin/racer.exe"
    racer-rust-src-path "C:/Users/Francois/Rust/Rust-Lang/src"
+   helm-dash-docset-newpath "D:/Documentation"
    eshell-prompt-function (lambda nil (concat "\n" (eshell/pwd) "\n> "))
+   neo-show-updir-line t
    powerline-default-separator 'arrow
    )
   (spaceline-compile)
@@ -192,11 +195,13 @@
   (indent-guide-global-mode)
 
   ;; Set up workspace
-  (delete-other-windows)
   (switch-to-buffer (get-buffer-create "New"))
   (text-mode)
   (split-window-right)
   (balance-windows)
+
+  ;; After loading
+  (with-eval-after-load 'zeal-at-point (add-to-list 'zeal-at-point-mode-alist '(rust-mode . "rust")))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
