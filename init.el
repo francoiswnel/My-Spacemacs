@@ -4,33 +4,37 @@
    dotspacemacs-configuration-layer-path '()
    dotspacemacs-configuration-layers
    '(
-     emacs-lisp
      asm
+     better-defaults
      c-c++
-     rust
-     python
-     ruby
-     ruby-on-rails
-     html
-     markdown
+     dash
+     emacs-lisp
+     evil-commentary
      extra-langs
      git
      github
-     dash
+     html
+     markdown
+     python
      ranger
-     better-defaults
-     evil-commentary
-     theming
+     ruby
+     ruby-on-rails
+     rust
      themes-megapack
+     theming
      (syntax-checking :variables
                       syntax-checking-enable-by-default nil
                       )
+     (spell-checking :variables
+                     spell-checking-enable-auto-dictionary t
+                     spell-checking-enable-by-default nil
+                     )
      (auto-completion :variables
+                      auto-completion-enable-help-tooltip t
+                      auto-completion-enable-snippets-in-popup t
+                      auto-completion-enable-sort-by-usage t
                       auto-completion-return-key-behavior 'complete
                       auto-completion-tab-key-behavior 'complete
-                      auto-completion-enable-snippets-in-popup t
-                      auto-completion-enable-help-tooltip t
-                      auto-completion-enable-sort-by-usage t
                       )
      (shell :variables
             shell-default-height 30
@@ -93,7 +97,7 @@
    dotspacemacs-active-transparency 100
    dotspacemacs-inactive-transparency 100
    dotspacemacs-mode-line-unicode-symbols nil
-   dotspacemacs-smooth-scrolling nil
+   dotspacemacs-smooth-scrolling t
    dotspacemacs-line-numbers t
    dotspacemacs-smartparens-strict-mode nil
    dotspacemacs-highlight-delimiters 'any
@@ -106,67 +110,71 @@
 
 (defun dotspacemacs/user-init ()
   (setq-default
-   frame-title-format "Emacs"
-   require-final-newline t
    blink-cursor-blinks 0
-   evil-shift-round nil
+   c-basic-offset 4
    evil-move-cursor-back nil
-   rust-enable-racer t
+   evil-shift-round nil
+   frame-title-format "Emacs"
+   neo-show-hidden-files nil
+   neo-smart-open t
+   neo-theme 'ascii
    ranger-override-dired t
+   require-final-newline t
+   rust-enable-racer t
    sp-highlight-pair-overlay nil
    tab-width 4
-   c-basic-offset 4
-   neo-theme 'ascii
-   neo-smart-open t
-   neo-show-hidden-files nil
    )
+
+  (require 'server)
+  (unless (server-running-p)
+    (server-start))
 
   ;; Monokai Dark Soda colour scheme
   (custom-set-variables
    '(
      spacemacs-theme-custom-colors
      '(
+       (act1 . "#1e1e1e")
+       (act2 . "#4a4a4a")
        (aqua . "#66d9ef")
        (aqua-bg . "#66d9ef")
-       (green . "#a7e22e")
-       (green-bg . "#a7e22e")
-       (green-bg-s . "#a7e22e")
-       (cyan . "#66d9ef")
-       (red . "#d62220")
-       (red-bg . "#d62220")
-       (red-bg-s . "#d62220")
-       (blue . "#66d9ef")
-       (blue-bg . "#66d9ef")
-       (violet . "#ff80f4")
-       (yellow . "#fe9720")
-       (yellow-bg . "#fe9720")
-       (const . "#ff80f4")
-       (keyword . "#f92671")
-       (type . "#66d9ef")
-       (func . "#a7e22e")
-       (var . "#66d9ef")
-       (highlight . "#4a4a4a")
-       (mat . "#a7e22e")
+       (base . "#f8f8f8")
+       (base-dim . "#d8d8d8")
        (bg1 . "#1e1e1e")
        (bg2 . "#1e1e1e")
        (bg3 . "#1a1a1a")
        (bg4 . "#111111")
-       (base . "#f8f8f8")
-       (base-dim . "#d8d8d8")
+       (blue . "#66d9ef")
+       (blue-bg . "#66d9ef")
+       (border . "#4a4a4a")
        (comment . "#8c8c8c")
        (comment-bg . "#1e1e1e")
-       (str . "#ffee99")
-       (act1 . "#1e1e1e")
-       (act2 . "#4a4a4a")
-       (border . "#4a4a4a")
-       (lnum . "#8c8c8c")
-       (ttip . "#8c8c8c")
-       (ttip-sl . "#4a4a4a")
-       (ttip-bg . "#2a2a2a")
        (comp . "#66d9ef")
+       (const . "#ff80f4")
+       (cyan . "#66d9ef")
        (err . "#d62220")
+       (func . "#a7e22e")
+       (green . "#a7e22e")
+       (green-bg . "#a7e22e")
+       (green-bg-s . "#a7e22e")
+       (highlight . "#4a4a4a")
+       (keyword . "#f92671")
+       (lnum . "#8c8c8c")
+       (mat . "#a7e22e")
+       (red . "#d62220")
+       (red-bg . "#d62220")
+       (red-bg-s . "#d62220")
+       (str . "#ffee99")
        (suc . "#a7e220")
+       (ttip . "#8c8c8c")
+       (ttip-bg . "#2a2a2a")
+       (ttip-sl . "#4a4a4a")
+       (type . "#66d9ef")
+       (var . "#66d9ef")
+       (violet . "#ff80f4")
        (war . "#ff0000")
+       (yellow . "#fe9720")
+       (yellow-bg . "#fe9720")
        )
      )
    )
@@ -175,24 +183,25 @@
 (defun dotspacemacs/user-config ()
   (setq
    default-directory "C:/Users/Francois"
-   racer-cmd "C:/Users/Francois/.cargo/bin/racer.exe"
-   racer-rust-src-path "C:/Users/Francois/Rust/Rust-Lang/src"
-   helm-dash-docset-newpath "D:/Documentation"
    eshell-prompt-function (lambda nil (concat "\n" (eshell/pwd) "\n> "))
+   helm-dash-docset-newpath "D:/Documentation"
    neo-show-updir-line t
    powerline-default-separator 'arrow
+   racer-cmd "C:/Users/Francois/.cargo/bin/racer.exe"
+   racer-rust-src-path "C:/Users/Francois/Rust/Rust-Lang/src"
+   server-use-tcp t
    )
-  (spaceline-compile)
-  (add-hook 'rust-mode-hook #'racer-mode)
-  (add-hook 'racer-mode-hook #'eldoc-mode)
   (add-hook 'racer-mode-hook #'company-mode)
+  (add-hook 'racer-mode-hook #'eldoc-mode)
+  (add-hook 'rust-mode-hook #'racer-mode)
   (blink-cursor-mode 'visible-cursor)
-  (global-vi-tilde-fringe-mode -1)
-  (set-face-italic 'italic nil)
-  (set-face-bold 'bold nil)
   (drag-stuff-global-mode 1)
   (global-company-mode)
+  (global-vi-tilde-fringe-mode -1)
   (indent-guide-global-mode)
+  (set-face-bold 'bold nil)
+  (set-face-italic 'italic nil)
+  (spaceline-compile)
 
   ;; Set up workspace
   (switch-to-buffer (get-buffer-create "New"))
