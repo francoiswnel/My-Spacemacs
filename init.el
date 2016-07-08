@@ -22,13 +22,6 @@
      rust
      themes-megapack
      theming
-     (syntax-checking :variables
-                      syntax-checking-enable-by-default nil
-                      )
-     (spell-checking :variables
-                     spell-checking-enable-auto-dictionary t
-                     spell-checking-enable-by-default nil
-                     )
      (auto-completion :variables
                       auto-completion-enable-help-tooltip t
                       auto-completion-enable-snippets-in-popup t
@@ -40,13 +33,20 @@
             shell-default-height 30
             shell-default-position 'bottom
             )
+     (syntax-checking :variables
+                      syntax-checking-enable-by-default nil
+                      )
      )
    dotspacemacs-additional-packages
    '(
      cargo
      drag-stuff
+     evil-smartparens
      )
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages
+   '(
+     vi-tilde-fringe
+     )
    dotspacemacs-delete-orphan-packages t)
   )
 
@@ -58,7 +58,7 @@
    dotspacemacs-editing-style 'vim
    dotspacemacs-verbose-loading nil
    dotspacemacs-startup-banner 'official
-   dotspacemacs-startup-lists '(recents bookmarks projects agenda todos)
+   dotspacemacs-startup-lists '(recents projects bookmarks)
    dotspacemacs-startup-recent-list-size 5
    dotspacemacs-scratch-mode 'text-mode
    dotspacemacs-themes '(spacemacs-dark)
@@ -99,9 +99,9 @@
    dotspacemacs-mode-line-unicode-symbols nil
    dotspacemacs-smooth-scrolling t
    dotspacemacs-line-numbers t
-   dotspacemacs-smartparens-strict-mode nil
+   dotspacemacs-smartparens-strict-mode t
    dotspacemacs-highlight-delimiters 'any
-   dotspacemacs-persistent-server nil
+   dotspacemacs-persistent-server t
    dotspacemacs-search-tools '("ag" "pt" "ack" "grep")
    dotspacemacs-default-package-repository nil
    dotspacemacs-whitespace-cleanup nil
@@ -115,8 +115,6 @@
    evil-move-cursor-back nil
    evil-shift-round nil
    frame-title-format "Emacs"
-   neo-show-hidden-files nil
-   neo-smart-open t
    neo-theme 'ascii
    ranger-override-dired t
    require-final-newline t
@@ -125,11 +123,12 @@
    tab-width 4
    )
 
+  ;; Start server
   (require 'server)
   (unless (server-running-p)
     (server-start))
 
-  ;; Monokai Dark Soda colour scheme
+  ;; Monokai Dark Soda theme
   (custom-set-variables
    '(
      spacemacs-theme-custom-colors
@@ -147,32 +146,47 @@
        (blue . "#66d9ef")
        (blue-bg . "#66d9ef")
        (border . "#4a4a4a")
+       (cblk . "#f8f8f8")
+       (cblk-bg . "#1e1e1e")
+       (cblk-ln . "#66d9ef")
+       (cblk-ln-bg . "#1e1e1e")
        (comment . "#8c8c8c")
        (comment-bg . "#1e1e1e")
        (comp . "#66d9ef")
        (const . "#ff80f4")
+       (cursor . "#f8f8f8")
        (cyan . "#66d9ef")
        (err . "#d62220")
        (func . "#a7e22e")
        (green . "#a7e22e")
        (green-bg . "#a7e22e")
        (green-bg-s . "#a7e22e")
+       (head1 . "#66d9ef")
+       (head1-bg . "#1e1e1e")
+       (head2 . "#a7e22e")
+       (head2-bg . "#1e1e1e")
+       (head3 . "#f92671")
+       (head3-bg . "#1e1e1e")
+       (head4 . "#ff80f4")
+       (head4-bg . "#1e1e1e")
        (highlight . "#4a4a4a")
        (keyword . "#f92671")
+       (lnk . "#66d9ef")
        (lnum . "#8c8c8c")
-       (mat . "#a7e22e")
+       (mat . "#66d9ef")
+       (meta . "#8c8c8c")
        (red . "#d62220")
        (red-bg . "#d62220")
        (red-bg-s . "#d62220")
        (str . "#ffee99")
-       (suc . "#a7e220")
+       (suc . "#a7e22e")
        (ttip . "#8c8c8c")
        (ttip-bg . "#2a2a2a")
        (ttip-sl . "#4a4a4a")
        (type . "#66d9ef")
        (var . "#66d9ef")
        (violet . "#ff80f4")
-       (war . "#ff0000")
+       (war . "#fe9720")
        (yellow . "#fe9720")
        (yellow-bg . "#fe9720")
        )
@@ -182,22 +196,29 @@
 
 (defun dotspacemacs/user-config ()
   (setq
-   default-directory "C:/Users/Francois"
+   default-directory "c:/Users/Francois"
    eshell-prompt-function (lambda nil (concat "\n" (eshell/pwd) "\n> "))
-   helm-dash-docset-newpath "D:/Documentation"
+   helm-dash-docset-newpath "d:/Documentation"
+   neo-show-hidden-files nil
    neo-show-updir-line t
+   neo-smart-open t
    powerline-default-separator 'arrow
-   racer-cmd "C:/Users/Francois/.cargo/bin/racer.exe"
-   racer-rust-src-path "C:/Users/Francois/Rust/Rust-Lang/src"
+   racer-cmd "c:/Users/Francois/.cargo/bin/racer.exe"
+   racer-rust-src-path "c:/Users/Francois/Rust/Rust-Lang/src"
+   ranger-hide-cursor nil
+   ranger-show-dotfiles nil
    server-use-tcp t
    )
+  (add-hook 'evil-insert-state-entry-hook #'spacemacs/toggle-aggressive-indent-off)
+  (add-hook 'evil-insert-state-exit-hook #'spacemacs/toggle-aggressive-indent-on)
   (add-hook 'racer-mode-hook #'company-mode)
   (add-hook 'racer-mode-hook #'eldoc-mode)
   (add-hook 'rust-mode-hook #'racer-mode)
+  (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
   (blink-cursor-mode 'visible-cursor)
   (drag-stuff-global-mode 1)
+  (global-aggressive-indent-mode)
   (global-company-mode)
-  (global-vi-tilde-fringe-mode -1)
   (indent-guide-global-mode)
   (set-face-bold 'bold nil)
   (set-face-italic 'italic nil)
