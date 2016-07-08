@@ -186,9 +186,9 @@
        (type . "#66d9ef")
        (var . "#66d9ef")
        (violet . "#ff80f4")
-       (war . "#fe9720")
-       (yellow . "#fe9720")
-       (yellow-bg . "#fe9720")
+       (war . "#eead0e")
+       (yellow . "#eead0e")
+       (yellow-bg . "#eead0e")
        )
      )
    )
@@ -198,6 +198,11 @@
   (setq
    default-directory "c:/Users/Francois"
    eshell-prompt-function (lambda nil (concat "\n" (eshell/pwd) "\n> "))
+   evil-emacs-state-cursor '("#66d9ef" box)
+   evil-insert-state-cursor '("#a7e22e" box)
+   evil-motion-state-cursor '("#ff80f4" box)
+   evil-normal-state-cursor '("#eead0e" box)
+   evil-visual-state-cursor '("#f8f8f8" box)
    helm-dash-docset-newpath "d:/Documentation"
    neo-show-hidden-files nil
    neo-show-updir-line t
@@ -207,10 +212,15 @@
    racer-rust-src-path "c:/Users/Francois/Rust/Rust-Lang/src"
    ranger-hide-cursor nil
    ranger-show-dotfiles nil
+   scroll-margin 5
    server-use-tcp t
    )
+
+  ;; Hooks and modes
   (add-hook 'evil-insert-state-entry-hook #'spacemacs/toggle-aggressive-indent-off)
   (add-hook 'evil-insert-state-exit-hook #'spacemacs/toggle-aggressive-indent-on)
+  (add-hook 'evil-motion-state-entry-hook #'spacemacs/toggle-indent-guide-off)
+  (add-hook 'evil-motion-state-exit-hook #'spacemacs/toggle-indent-guide-on)
   (add-hook 'racer-mode-hook #'company-mode)
   (add-hook 'racer-mode-hook #'eldoc-mode)
   (add-hook 'rust-mode-hook #'racer-mode)
@@ -223,6 +233,20 @@
   (set-face-bold 'bold nil)
   (set-face-italic 'italic nil)
   (spaceline-compile)
+
+  ;; Customise Spacemacs major mode colours
+  (custom-set-faces
+   '(spaceline-evil-emacs ((t (:background "#66d9ef" :foreground "#1e1e1e" :inherit (quote mode-line)))))
+   '(spaceline-evil-insert ((t (:background "#a7e22e" :foreground "#1e1e1e" :inherit (quote mode-line)))))
+   '(spaceline-evil-motion ((t (:background "#ff80f4" :foreground "#1e1e1e" :inherit (quote mode-line)))))
+   '(spaceline-evil-normal ((t (:background "#eead0e" :foreground "#1e1e1e" :inherit (quote mode-line)))))
+   '(spaceline-evil-visual ((t (:background "#f8f8f8" :foreground "#1e1e1e" :inherit (quote mode-line)))))
+   '(spacemacs-emacs-face ((t (:background "#66d9ef" :foreground "#1e1e1e" :inherit (quote mode-line)))))
+   '(spacemacs-insert-face ((t (:background "#a7e22e" :foreground "#1e1e1e" :inherit (quote mode-line)))))
+   '(spacemacs-motion-face ((t (:background "#ff80f4" :foreground "#1e1e1e" :inherit (quote mode-line)))))
+   '(spacemacs-normal-face ((t (:background "#eead0e" :foreground "#1e1e1e" :inherit (quote mode-line)))))
+   '(spacemacs-visual-face ((t (:background "#f8f8f8" :foreground "#1e1e1e" :inherit (quote mode-line)))))
+   )
 
   ;; Set up workspace
   (switch-to-buffer (get-buffer-create "New"))
