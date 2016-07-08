@@ -125,8 +125,7 @@
 
   ;; Start server
   (require 'server)
-  (unless (server-running-p)
-    (server-start))
+  (unless (server-running-p) (server-start))
 
   ;; Monokai Dark Soda theme
   (custom-set-variables
@@ -214,11 +213,16 @@
 
   ;; Windows specific settings
   (if (spacemacs/system-is-mswindows)
-      (setq
-       default-directory "c:/Users/Francois"
-       helm-dash-docset-newpath "d:/Documentation"
-       racer-cmd "c:/Users/Francois/.cargo/bin/racer.exe"
-       racer-rust-src-path "c:/Users/Francois/Rust/Rust-Lang/src"
+      (
+       (setq
+        default-directory "c:/Users/Francois"
+        helm-dash-docset-newpath "d:/Documentation"
+        racer-cmd "c:/Users/Francois/.cargo/bin/racer.exe"
+        racer-rust-src-path "c:/Users/Francois/Rust/Rust-Lang/src"
+        )
+       (add-hook 'evil-motion-state-entry-hook #'spacemacs/toggle-indent-guide-off)
+       (add-hook 'evil-motion-state-exit-hook #'spacemacs/toggle-indent-guide-on)
+       (indent-guide-global-mode)
        )
     )
 
@@ -226,14 +230,14 @@
   (if (spacemacs/system-is-mac)
       (setq
        default-directory "~"
+       mac-allow-anti-aliasing nil
+       ns-use-srgb-colorspace nil
        )
     )
 
   ;; Hooks and modes
   (add-hook 'evil-insert-state-entry-hook #'spacemacs/toggle-aggressive-indent-off)
   (add-hook 'evil-insert-state-exit-hook #'spacemacs/toggle-aggressive-indent-on)
-  (add-hook 'evil-motion-state-entry-hook #'spacemacs/toggle-indent-guide-off)
-  (add-hook 'evil-motion-state-exit-hook #'spacemacs/toggle-indent-guide-on)
   (add-hook 'racer-mode-hook #'company-mode)
   (add-hook 'racer-mode-hook #'eldoc-mode)
   (add-hook 'rust-mode-hook #'racer-mode)
@@ -242,7 +246,6 @@
   (drag-stuff-global-mode 1)
   (global-aggressive-indent-mode)
   (global-company-mode)
-  (indent-guide-global-mode)
   (set-face-bold 'bold nil)
   (set-face-italic 'italic nil)
   (spaceline-compile)
@@ -264,8 +267,12 @@
   ;; Set up workspace
   (switch-to-buffer (get-buffer-create "New"))
   (text-mode)
-  (split-window-right)
-  (balance-windows)
+  (if (spacemacs/system-is-mswindows)
+      (
+       (split-window-right)
+       (balance-windows)
+       )
+    )
 
   ;; After loading
   (with-eval-after-load 'zeal-at-point (add-to-list 'zeal-at-point-mode-alist '(rust-mode . "rust")))
