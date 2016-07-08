@@ -196,25 +196,38 @@
 
 (defun dotspacemacs/user-config ()
   (setq
-   default-directory "c:/Users/Francois"
    eshell-prompt-function (lambda nil (concat "\n" (eshell/pwd) "\n> "))
    evil-emacs-state-cursor '("#66d9ef" box)
    evil-insert-state-cursor '("#a7e22e" box)
    evil-motion-state-cursor '("#ff80f4" box)
    evil-normal-state-cursor '("#ff9900" box)
    evil-visual-state-cursor '("#f8f8f8" box)
-   helm-dash-docset-newpath "d:/Documentation"
    neo-show-hidden-files nil
    neo-show-updir-line t
    neo-smart-open t
    powerline-default-separator 'arrow
-   racer-cmd "c:/Users/Francois/.cargo/bin/racer.exe"
-   racer-rust-src-path "c:/Users/Francois/Rust/Rust-Lang/src"
    ranger-hide-cursor nil
    ranger-show-dotfiles nil
    scroll-margin 5
    server-use-tcp t
    )
+
+  ;; Windows specific settings
+  (if (spacemacs/system-is-mswindows)
+      (setq
+       default-directory "c:/Users/Francois"
+       helm-dash-docset-newpath "d:/Documentation"
+       racer-cmd "c:/Users/Francois/.cargo/bin/racer.exe"
+       racer-rust-src-path "c:/Users/Francois/Rust/Rust-Lang/src"
+       )
+    )
+
+  ;; Mac specific settings
+  (if (spacemacs/system-is-mac)
+      (setq
+       default-directory "~"
+       )
+    )
 
   ;; Hooks and modes
   (add-hook 'evil-insert-state-entry-hook #'spacemacs/toggle-aggressive-indent-off)
