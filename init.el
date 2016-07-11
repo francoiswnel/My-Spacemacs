@@ -99,7 +99,7 @@
    dotspacemacs-mode-line-unicode-symbols nil
    dotspacemacs-smooth-scrolling t
    dotspacemacs-line-numbers t
-   dotspacemacs-smartparens-strict-mode t
+   dotspacemacs-smartparens-strict-mode nil
    dotspacemacs-highlight-delimiters 'any
    dotspacemacs-persistent-server t
    dotspacemacs-search-tools '("ag" "pt" "ack" "grep")
@@ -127,9 +127,9 @@
   (require 'server)
   (unless (server-running-p) (server-start))
 
-  ;; Monokai Dark Soda theme
   (custom-set-variables
    '(
+     ;; Monokai Dark Soda theme
      spacemacs-theme-custom-colors
      '(
        (act1 . "#1e1e1e")
@@ -155,7 +155,7 @@
        (const . "#ff80f4")
        (cursor . "#f8f8f8")
        (cyan . "#66d9ef")
-       (err . "#d62220")
+       (err . "#ff0000")
        (func . "#a7e22e")
        (green . "#a7e22e")
        (green-bg . "#a7e22e")
@@ -174,9 +174,9 @@
        (lnum . "#8c8c8c")
        (mat . "#66d9ef")
        (meta . "#8c8c8c")
-       (red . "#d62220")
-       (red-bg . "#d62220")
-       (red-bg-s . "#d62220")
+       (red . "#ff0000")
+       (red-bg . "#ff0000")
+       (red-bg-s . "#ff0000")
        (str . "#ffee99")
        (suc . "#a7e22e")
        (ttip . "#8c8c8c")
@@ -190,6 +190,29 @@
        (yellow-bg . "#ff9900")
        )
      )
+
+   ;; Customise todo comment highlights
+   '(
+     hl-todo-keyword-faces
+     '(
+       ("???" . warning)
+       ("DONE" . warning)
+       ("DONT" . warning)
+       ("FAIL" . warning)
+       ("FIXME" . warning)
+       ("HACK" . warning)
+       ("HOLD" . warning)
+       ("KLUDGE" . warning)
+       ("NEXT" . warning)
+       ("NOTE" . warning)
+       ("OKAY" . warning)
+       ("PROG" . warning)
+       ("THEM" . warning)
+       ("TODO" . warning)
+       ("XXX" . warning)
+       ("XXXX" . warning)
+       )
+     )
    )
   )
 
@@ -197,6 +220,8 @@
   (setq
    eshell-prompt-function (lambda nil (concat "\n" (eshell/pwd) "\n> "))
    evil-emacs-state-cursor '("#66d9ef" box)
+   evil-iedit-insert-state-cursor '("#00ff00" box)
+   evil-iedit-state-cursor '("#ff0000" box)
    evil-insert-state-cursor '("#a7e22e" box)
    evil-motion-state-cursor '("#ff80f4" box)
    evil-normal-state-cursor '("#ff9900" box)
@@ -210,6 +235,9 @@
    scroll-margin 5
    server-use-tcp t
    )
+
+  ;; Remove fringe continuation indicators
+  (setf (cdr (assq 'continuation fringe-indicator-alist)) '(nil nil))
 
   ;; Windows specific settings
   (if (spacemacs/system-is-mswindows)
@@ -256,6 +284,8 @@
    '(spaceline-evil-normal ((t (:background "#ff9900" :foreground "#1e1e1e" :inherit (quote mode-line)))))
    '(spaceline-evil-visual ((t (:background "#f8f8f8" :foreground "#1e1e1e" :inherit (quote mode-line)))))
    '(spacemacs-emacs-face ((t (:background "#66d9ef" :foreground "#1e1e1e" :inherit (quote mode-line)))))
+   '(spacemacs-iedit-face ((t (:background "#ff0000" :foreground "#1e1e1e" :inherit (quote mode-line)))))
+   '(spacemacs-iedit-insert-face ((t (:background "#00ff00" :foreground "#1e1e1e" :inherit (quote mode-line)))))
    '(spacemacs-insert-face ((t (:background "#a7e22e" :foreground "#1e1e1e" :inherit (quote mode-line)))))
    '(spacemacs-motion-face ((t (:background "#ff80f4" :foreground "#1e1e1e" :inherit (quote mode-line)))))
    '(spacemacs-normal-face ((t (:background "#ff9900" :foreground "#1e1e1e" :inherit (quote mode-line)))))
