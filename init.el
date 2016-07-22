@@ -240,25 +240,25 @@
   (setf (cdr (assq 'continuation fringe-indicator-alist)) '(nil nil))
 
   ;; Windows specific settings
-  (when (spacemacs/system-is-mswindows)
-    (setq
-     default-directory "c:/Users/Francois"
-     helm-dash-docset-newpath "d:/Documentation"
-     racer-cmd "c:/Users/Francois/.cargo/bin/racer.exe"
-     racer-rust-src-path "c:/Users/Francois/Rust/Rust-Lang/src"
-     )
-    (add-hook 'evil-motion-state-entry-hook #'spacemacs/toggle-indent-guide-off)
-    (add-hook 'evil-motion-state-exit-hook #'spacemacs/toggle-indent-guide-on)
-    (indent-guide-global-mode)
+  (if (spacemacs/system-is-mswindows)
+      (setq
+       default-directory "c:/Users/Francois"
+       helm-dash-docset-newpath "d:/Documentation"
+       racer-cmd "c:/Users/Francois/.cargo/bin/racer.exe"
+       racer-rust-src-path "c:/Users/Francois/Rust/Rust-Lang/src"
+       )
     )
+  (if (spacemacs/system-is-mswindows) (add-hook 'evil-motion-state-entry-hook #'spacemacs/toggle-indent-guide-off))
+  (if (spacemacs/system-is-mswindows) (add-hook 'evil-motion-state-exit-hook #'spacemacs/toggle-indent-guide-on))
+  (if (spacemacs/system-is-mswindows) (indent-guide-global-mode))
 
   ;; Mac specific settings
-  (when (spacemacs/system-is-mac)
-    (setq
-     default-directory "~"
-     mac-allow-anti-aliasing nil
-     ns-use-srgb-colorspace nil
-     )
+  (if (spacemacs/system-is-mac)
+      (setq
+       default-directory "~"
+       mac-allow-anti-aliasing nil
+       ns-use-srgb-colorspace nil
+       )
     )
 
   ;; Hooks and modes
@@ -295,10 +295,8 @@
   ;; Set up workspace
   (switch-to-buffer (get-buffer-create "New"))
   (text-mode)
-  (when (spacemacs/system-is-mswindows)
-    (split-window-right)
-    (balance-windows)
-    )
+  (if (spacemacs/system-is-mswindows) (split-window-right))
+  (if (spacemacs/system-is-mswindows) (balance-windows))
 
   ;; After loading
   (with-eval-after-load 'zeal-at-point (add-to-list 'zeal-at-point-mode-alist '(rust-mode . "rust")))
