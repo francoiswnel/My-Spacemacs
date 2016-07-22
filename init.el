@@ -256,6 +256,7 @@
   (if (spacemacs/system-is-mac)
       (setq
        default-directory "~"
+       helm-dash-docset-newpath "~/Library/Application Support/Dash/DocSets"
        mac-allow-anti-aliasing nil
        ns-use-srgb-colorspace nil
        )
