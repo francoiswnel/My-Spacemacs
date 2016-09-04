@@ -300,10 +300,5 @@
     (split-window-right)
     (balance-windows)
     )
-
-  ;; After loading
-  (with-eval-after-load 'zeal-at-point (add-to-list 'zeal-at-point-mode-alist '(rust-mode . "rust")))
   )
 
-;; Do not write anything past this comment. This is where Emacs will
-;; auto-generate custom variable definitions.
