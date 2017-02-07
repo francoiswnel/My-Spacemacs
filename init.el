@@ -244,9 +244,9 @@
   (when (spacemacs/system-is-mswindows)
     (setq
      default-directory "c:/Users/Francois"
-     helm-dash-docset-newpath "d:/Documentation"
+     helm-dash-docset-newpath "g:/Documentation"
      racer-cmd "c:/Users/Francois/.cargo/bin/racer.exe"
-     racer-rust-src-path "c:/Users/Francois/Rust/Rust-Lang/src"
+     racer-rust-src-path "g:/Rust/Rust-Lang/src"
      )
     (add-hook 'evil-motion-state-entry-hook #'spacemacs/toggle-indent-guide-off)
     (add-hook 'evil-motion-state-exit-hook #'spacemacs/toggle-indent-guide-on)
