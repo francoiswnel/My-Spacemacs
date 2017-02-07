@@ -114,6 +114,7 @@
    c-basic-offset 4
    evil-move-cursor-back nil
    evil-shift-round nil
+   exec-path-from-shell-check-startup-files nil
    frame-title-format "Emacs"
    neo-theme 'ascii
    ranger-override-dired t
@@ -271,6 +272,7 @@
   (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
   (blink-cursor-mode 'visible-cursor)
   (drag-stuff-global-mode 1)
+  (drag-stuff-define-keys)
   (global-aggressive-indent-mode)
   (global-company-mode)
   (set-face-bold 'bold nil)
