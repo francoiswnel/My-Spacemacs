@@ -14,6 +14,7 @@
      git
      github
      html
+     javascript
      markdown
      python
      ranger
@@ -124,10 +125,6 @@
    tab-width 4
    )
 
-  ;; Start server
-  (require 'server)
-  (unless (server-running-p) (server-start))
-
   (custom-set-variables
    '(
      ;; Monokai Dark Soda theme
@@ -227,6 +224,9 @@
    evil-motion-state-cursor '("#ff80f4" box)
    evil-normal-state-cursor '("#ff9900" box)
    evil-visual-state-cursor '("#f8f8f8" box)
+   mouse-wheel-follow-mouse 't
+   mouse-wheel-progressive-speed nil
+   mouse-wheel-scroll-amount '(2 ((shift).1))
    neo-show-hidden-files nil
    neo-show-updir-line t
    neo-smart-open t
@@ -236,6 +236,10 @@
    scroll-margin 5
    server-use-tcp t
    )
+
+  ;; Start server
+  (require 'server)
+  (unless (server-running-p) (server-start))
 
   ;; Remove fringe continuation indicators
   (setf (cdr (assq 'continuation fringe-indicator-alist)) '(nil nil))
